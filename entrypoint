@@ -1,0 +1,2 @@
+#!/bin/bash
+exec "${DIST_DIR}/solr/bin/search_config_setup.sh" "'${DIST_DIR}/solr/bin/solr' start -f"
