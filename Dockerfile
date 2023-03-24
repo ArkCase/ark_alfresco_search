@@ -18,7 +18,7 @@ ARG ARCH="amd64"
 ARG OS="linux"
 ARG VER="2.0.5"
 ARG PKG="alfresco-search"
-ARG ALFRESCO_SRC="alfresco/alfresco-search-services:${VER}"
+ARG ALFRESCO_SRC="alfresco/alfresco-search-services"
 ARG APP_USER="solr"
 ARG APP_UID="33007"
 ARG APP_GROUP="${APP_USER}"
@@ -27,7 +27,7 @@ ARG SOLR_ROOT="/opt/alfresco-search-services"
 ARG SOLR_DATA="${SOLR_ROOT}/data"
 
 # Used to copy artifacts
-FROM "${ALFRESCO_SRC}" AS alfresco-src
+FROM "${ALFRESCO_SRC}:${VER}" AS alfresco-src
 
 ARG BASE_REGISTRY
 ARG BASE_REPO
@@ -47,8 +47,8 @@ ARG APP_GID
 ARG SOLR_ROOT
 ARG SOLR_DATA
 
-ENV JAVA_HOME="/usr/lib/jvm/jre-11-openjdk" \
-    JAVA_MAJOR="11" \
+ENV JAVA_HOME="/usr/lib/jvm/jre-8-openjdk" \
+    JAVA_MAJOR="8" \
     LANG="en_US.UTF-8" \
     LC_ALL="en_US.UTF-8" \
     JAVA_BIN_PATH="${JAVA_HOME}/bin/java" \
