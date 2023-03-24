@@ -25,7 +25,8 @@ ARG APP_GROUP="${APP_USER}"
 ARG APP_GID="${APP_UID}"
 ARG SOLR_ROOT="/opt/alfresco-search-services"
 ARG SOLR_DATA="${SOLR_ROOT}/data"
-ARG JAVA_VER="8"
+ARG JAVA_VER="11"
+ARG JAVA_MAJOR="${JAVA_VER}"
 
 # Used to copy artifacts
 FROM "${ALFRESCO_SRC}:${VER}" AS alfresco-src
@@ -47,9 +48,11 @@ ARG APP_GROUP
 ARG APP_GID
 ARG SOLR_ROOT
 ARG SOLR_DATA
+ARG JAVA_VER
+ARG JAVA_MAJOR
 
 ENV JAVA_HOME="/usr/lib/jvm/jre-${JAVA_VER}-openjdk" \
-    JAVA_MAJOR="${JAVA_VER}" \
+    JAVA_MAJOR="${JAVA_MAJOR}" \
     LANG="en_US.UTF-8" \
     LC_ALL="en_US.UTF-8" \
     JAVA_BIN_PATH="${JAVA_HOME}/bin/java" \
@@ -60,7 +63,7 @@ RUN yum -y update && \
     yum -y install \
         ca-certificates \
         langpacks-en \
-        java-${JAVA_MAJOR}-openjdk-devel && \
+        java-${JAVA_VER}-openjdk-devel && \
     yum -y clean all && \
     groupadd -g "${APP_GID}" "${APP_GROUP}" && \
     useradd -u "${APP_UID}" -g "${APP_GROUP}" "${APP_USER}"
