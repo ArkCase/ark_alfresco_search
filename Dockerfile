@@ -25,6 +25,7 @@ ARG APP_GROUP="${APP_USER}"
 ARG APP_GID="${APP_UID}"
 ARG SOLR_ROOT="/opt/alfresco-search-services"
 ARG SOLR_DATA="${SOLR_ROOT}/data"
+ARG JAVA_VER="8"
 
 # Used to copy artifacts
 FROM "${ALFRESCO_SRC}:${VER}" AS alfresco-src
@@ -47,8 +48,8 @@ ARG APP_GID
 ARG SOLR_ROOT
 ARG SOLR_DATA
 
-ENV JAVA_HOME="/usr/lib/jvm/jre-8-openjdk" \
-    JAVA_MAJOR="8" \
+ENV JAVA_HOME="/usr/lib/jvm/jre-${JAVA_VER}-openjdk" \
+    JAVA_MAJOR="${JAVA_VER}" \
     LANG="en_US.UTF-8" \
     LC_ALL="en_US.UTF-8" \
     JAVA_BIN_PATH="${JAVA_HOME}/bin/java" \
