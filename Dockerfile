@@ -71,6 +71,7 @@ RUN yum -y update && \
 COPY --from=alfresco-src "${DIST_DIR}" "${DIST_DIR}"
 COPY entrypoint /entrypoint
 RUN chmod 0755 /entrypoint
+COPY --chown="${APP_USER}:${APP_GROUP}" "solr.in.sh" "${SOLR_ROOT}/"
 
 RUN chown -R "${APP_USER}:${APP_GROUP}" "${DIST_DIR}" && \
     chmod ug+rx "${DIST_DIR}/solr/bin/search_config_setup.sh"
