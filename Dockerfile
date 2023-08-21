@@ -12,10 +12,11 @@
 
 ARG PUBLIC_REGISTRY="public.ecr.aws"
 ARG BASE_REPO="arkcase/base"
-ARG BASE_TAG="8.7.0"
+ARG BASE_TAG="8.8-01"
 ARG ARCH="amd64"
 ARG OS="linux"
 ARG VER="2.0.5"
+ARG BLD="01"
 ARG PKG="alfresco-search"
 ARG ALFRESCO_SRC="alfresco/alfresco-search-services"
 ARG APP_USER="solr"
@@ -65,7 +66,7 @@ RUN yum -y update && \
         java-${JAVA_VER}-openjdk-devel && \
     yum -y clean all && \
     groupadd -g "${APP_GID}" "${APP_GROUP}" && \
-    useradd -u "${APP_UID}" -g "${APP_GROUP}" "${APP_USER}"
+    useradd -u "${APP_UID}" -g "${APP_GROUP}" -G "${ACM_GROUP}" "${APP_USER}"
 
 COPY --from=alfresco-src "${DIST_DIR}" "${DIST_DIR}"
 COPY entrypoint /entrypoint
