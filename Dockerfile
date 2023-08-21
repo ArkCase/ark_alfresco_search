@@ -65,7 +65,7 @@ RUN yum -y update && \
         java-${JAVA_VER}-openjdk-devel && \
     yum -y clean all && \
     groupadd -g "${APP_GID}" "${APP_GROUP}" && \
-    useradd -u "${APP_UID}" -g "${APP_GROUP}" "${APP_USER}"
+    useradd -u "${APP_UID}" -g "${APP_GROUP}" -G "${ACM_GROUP}" "${APP_USER}"
 
 COPY --from=alfresco-src "${DIST_DIR}" "${DIST_DIR}"
 COPY entrypoint /entrypoint

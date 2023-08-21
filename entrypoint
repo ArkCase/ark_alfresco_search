@@ -4,6 +4,6 @@ set -euo pipefail
 
 # Init SSL
 [ -v SSL_DIR ] || SSL_DIR="/.ssl"
-acme-init
+/usr/local/bin/acme-init
 
 exec "${DIST_DIR}/solr/bin/search_config_setup.sh" "'${DIST_DIR}/solr/bin/solr' start -f"
