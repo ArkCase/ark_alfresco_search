@@ -119,8 +119,8 @@ SOLR_SSL_KEY_STORE_TYPE="PKCS12"
 SOLR_SSL_TRUST_STORE="/etc/pki/java/cacerts"
 SOLR_SSL_TRUST_STORE_PASSWORD="changeit"
 SOLR_SSL_TRUST_STORE_TYPE="JKS"
-#SOLR_SSL_NEED_CLIENT_AUTH=false
-#SOLR_SSL_WANT_CLIENT_AUTH=false
+SOLR_SSL_NEED_CLIENT_AUTH="false"
+SOLR_SSL_WANT_CLIENT_AUTH="true"
 
 # Uncomment if you want to override previously defined SSL values for HTTP client
 # otherwise keep them commented and the above values will automatically be set for HTTP clients
@@ -146,3 +146,8 @@ SOLR_SSL_TRUST_STORE_TYPE="JKS"
 
 #Docker Setup
 SOLR_OPTS="$SOLR_OPTS -Dsolr.data.dir.root=$SOLR_DATA_DIR_ROOT -Dsolr.solr.model.dir=$SOLR_SOLR_MODEL_DIR"
+
+# More keystore things ... b/c ... why make things simple when we can make them extra hard?
+SOLR_OPTS+=" -Dsolr.allow.unsafe.resourceloading=true"
+SOLR_OPTS+=" -Dalfresco.encryption.ssl.keystore.location=${SSL_DIR}/keystore.jceks -Dalfresco.encryption.ssl.keystore.type=JCEKS -Dssl-keystore.password=${SOLR_SSL_KEY_STORE_PASSWORD}"
+SOLR_OPTS+=" -Dalfresco.encryption.ssl.truststore.location=${SSL_DIR}/keystore.jceks -Dalfresco.encryption.ssl.truststore.type=JCEKS -Dssl-truststore.password=${SOLR_SSL_KEY_STORE_PASSWORD}"
