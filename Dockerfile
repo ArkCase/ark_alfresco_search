@@ -11,14 +11,10 @@
 ###########################################################################################################
 
 ARG PUBLIC_REGISTRY="public.ecr.aws"
-ARG BASE_REPO="arkcase/base"
-ARG BASE_TAG="8-02"
 ARG ARCH="amd64"
 ARG OS="linux"
 ARG VER="2.0.5"
-ARG BLD="02"
 ARG PKG="alfresco-search"
-ARG ALFRESCO_SRC="alfresco/alfresco-search-services"
 ARG APP_USER="solr"
 ARG APP_UID="33007"
 ARG APP_GROUP="${APP_USER}"
@@ -28,15 +24,20 @@ ARG SOLR_DATA="${SOLR_ROOT}/data"
 ARG JAVA_VER="11"
 ARG JAVA_MAJOR="${JAVA_VER}"
 
-# Used to copy artifacts
-FROM "${ALFRESCO_SRC}:${VER}" AS alfresco-src
+ARG ALFRESCO_REPO="alfresco/alfresco-search-services"
+ARG ALFRESCO_IMG="${ALFRESCO_REPO}:${VER}"
 
-ARG PUBLIC_REGISTRY
-ARG BASE_REPO
-ARG BASE_TAG
+ARG BASE_REPO="arkcase/base"
+ARG BASE_VER="8"
+ARG BASE_IMG="${PUBLIC_REGISTRY}/${BASE_REPO}:${BASE_VER}"
+
+# Used to copy artifacts
+FROM "${ALFRESCO_IMG}" AS alfresco-src
+
+ARG BASE_IMG
 
 # Final Image
-FROM "${PUBLIC_REGISTRY}/${BASE_REPO}:${BASE_TAG}"
+FROM "${BASE_IMG}"
 
 ARG ARCH
 ARG OS
