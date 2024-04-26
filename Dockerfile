@@ -13,7 +13,7 @@
 ARG PUBLIC_REGISTRY="public.ecr.aws"
 ARG ARCH="amd64"
 ARG OS="linux"
-ARG VER="2.0.5"
+ARG VER="2.0.8.2"
 ARG PKG="alfresco-search"
 ARG APP_USER="solr"
 ARG APP_UID="33007"
