@@ -1,10 +1,10 @@
 #!/bin/bash
 
 set -euo pipefail
+. /.functions
 
 # Init SSL
-[ -v SSL_DIR ] || SSL_DIR="/.ssl"
 export ACME_SUPPORT_JCEKS="true"
-/usr/local/bin/acme-init
+init_ssl
 
-exec "${DIST_DIR}/solr/bin/search_config_setup.sh" "'${DIST_DIR}/solr/bin/solr' start -f"
+execute "${DIST_DIR}/solr/bin/search_config_setup.sh" "'${DIST_DIR}/solr/bin/solr' start -f"
