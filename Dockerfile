@@ -60,8 +60,7 @@ ENV JAVA_HOME="/usr/lib/jvm/jre-${JAVA_VER}-openjdk" \
     DIST_DIR="${SOLR_ROOT}" \
     SOLR_DATA_DIR_ROOT="${SOLR_DATA}"
 
-RUN yum -y update && \
-    yum -y install \
+RUN yum -y install \
         ca-certificates \
         langpacks-en \
         java-${JAVA_VER}-openjdk-devel && \
