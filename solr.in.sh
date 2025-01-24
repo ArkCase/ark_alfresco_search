@@ -113,9 +113,9 @@ LOG4J_PROPS=$SOLR_LOGS_DIR/log4j.properties
 # Uncomment to set SSL-related system properties
 # Be sure to update the paths to the correct keystore for your environment
 SOLR_SSL_ENABLED="true"
-SOLR_SSL_KEY_STORE="${SSL_DIR}/keystore.jceks"
+SOLR_SSL_KEY_STORE="${SSL_DIR}/keystore.pkcs12"
 SOLR_SSL_KEY_STORE_PASSWORD="$(<"${SSL_DIR}/keystore.pass")"
-SOLR_SSL_KEY_STORE_TYPE="JCEKS"
+SOLR_SSL_KEY_STORE_TYPE="PKCS12"
 SOLR_SSL_TRUST_STORE="${SOLR_SSL_KEY_STORE}"
 SOLR_SSL_TRUST_STORE_PASSWORD="${SOLR_SSL_KEY_STORE_PASSWORD}"
 SOLR_SSL_TRUST_STORE_TYPE="${SOLR_SSL_KEY_STORE_TYPE}"
