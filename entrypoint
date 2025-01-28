@@ -4,7 +4,6 @@ set -euo pipefail
 . /.functions
 
 # Init SSL
-export ACME_SUPPORT_JCEKS="true"
 init_ssl
 
 execute "${DIST_DIR}/solr/bin/search_config_setup.sh" "'${DIST_DIR}/solr/bin/solr' start -f"
