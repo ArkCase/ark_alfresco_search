@@ -14,6 +14,7 @@ ARG PUBLIC_REGISTRY="public.ecr.aws"
 ARG ARCH="amd64"
 ARG OS="linux"
 ARG VER="2.0.8.2"
+ARG JAVA="11"
 ARG PKG="alfresco-search"
 ARG APP_USER="solr"
 ARG APP_UID="33007"
@@ -21,14 +22,12 @@ ARG APP_GROUP="${APP_USER}"
 ARG APP_GID="${APP_UID}"
 ARG SOLR_ROOT="/opt/alfresco-search-services"
 ARG SOLR_DATA="${SOLR_ROOT}/data"
-ARG JAVA_VER="11"
-ARG JAVA_MAJOR="${JAVA_VER}"
 
 ARG ALFRESCO_REPO="alfresco/alfresco-search-services"
 ARG ALFRESCO_IMG="${ALFRESCO_REPO}:${VER}"
 
 ARG BASE_REGISTRY="${PUBLIC_REGISTRY}"
-ARG BASE_REPO="arkcase/base"
+ARG BASE_REPO="arkcase/base-java"
 ARG BASE_VER="8"
 ARG BASE_VER_PFX=""
 ARG BASE_IMG="${BASE_REGISTRY}/${BASE_REPO}:${BASE_VER_PFX}${BASE_VER}"
@@ -44,6 +43,7 @@ FROM "${BASE_IMG}"
 ARG ARCH
 ARG OS
 ARG VER
+ARG JAVA
 ARG PKG
 ARG APP_USER
 ARG APP_UID
@@ -51,21 +51,19 @@ ARG APP_GROUP
 ARG APP_GID
 ARG SOLR_ROOT
 ARG SOLR_DATA
-ARG JAVA_VER
-ARG JAVA_MAJOR
 
-ENV JAVA_HOME="/usr/lib/jvm/jre-${JAVA_VER}-openjdk" \
-    JAVA_MAJOR="${JAVA_MAJOR}" \
+ENV JAVA_MAJOR="${JAVA_MAJOR}" \
     LANG="en_US.UTF-8" \
     LC_ALL="en_US.UTF-8" \
     JAVA_BIN_PATH="${JAVA_HOME}/bin/java" \
     DIST_DIR="${SOLR_ROOT}" \
     SOLR_DATA_DIR_ROOT="${SOLR_DATA}"
 
-RUN yum -y install \
+RUN set-java "${JAVA}" && \
+    yum -y install \
         ca-certificates \
         langpacks-en \
-        java-${JAVA_VER}-openjdk-devel && \
+      && \
     yum -y clean all && \
     groupadd -g "${APP_GID}" "${APP_GROUP}" && \
     useradd -u "${APP_UID}" -g "${APP_GROUP}" -G "${ACM_GROUP}" "${APP_USER}"
