@@ -55,9 +55,15 @@ ARG SOLR_DATA
 ENV JAVA_MAJOR="${JAVA_MAJOR}" \
     LANG="en_US.UTF-8" \
     LC_ALL="en_US.UTF-8" \
-    JAVA_BIN_PATH="${JAVA_HOME}/bin/java" \
-    DIST_DIR="${SOLR_ROOT}" \
-    SOLR_DATA_DIR_ROOT="${SOLR_DATA}"
+    JAVA_BIN_PATH="${JAVA_HOME}/bin/java"
+
+ENV DIST_DIR="/opt/alfresco-search-services"
+ENV SOLR_DATA_DIR_ROOT="${DIST_DIR}/data"
+ENV SOLR_SOLR_MODEL_DIR="${SOLR_DATA_DIR_ROOT}/alfrescoModels"
+ENV SOLR_ZIP="alfresco-search-services-${VER}.zip"
+
+# Use this default if not provided
+ENV SOLR_JAVA_MEM="-Xms1g -Xmx1g"
 
 RUN set-java "${JAVA}" && \
     yum -y install \
@@ -69,8 +75,7 @@ RUN set-java "${JAVA}" && \
     useradd -u "${APP_UID}" -g "${APP_GROUP}" -G "${ACM_GROUP}" "${APP_USER}"
 
 COPY --from=alfresco-src "${DIST_DIR}" "${DIST_DIR}"
-COPY entrypoint /entrypoint
-RUN chmod 0755 /entrypoint
+COPY --chown=root:root --chmod=0755 entrypoint /entrypoint
 COPY --chown="${APP_USER}:${APP_GROUP}" "solr.in.sh" "${SOLR_ROOT}/"
 
 RUN chown -R "${APP_USER}:${APP_GROUP}" "${DIST_DIR}" && \

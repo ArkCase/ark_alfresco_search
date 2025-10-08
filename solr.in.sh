@@ -32,7 +32,7 @@
 
 # Expert: If you want finer control over memory options, specify them directly
 # Comment out SOLR_HEAP if you are using this though, that takes precedence
-SOLR_JAVA_MEM="-Xms1g -Xmx1g"
+# SOLR_JAVA_MEM="-Xms1g -Xmx1g"
 
 # Enable verbose GC logging...
 #  * If this is unset, various default options will be selected depending on which JVM version is in use
@@ -46,7 +46,7 @@ SOLR_JAVA_MEM="-Xms1g -Xmx1g"
 #  -XX:+PrintGCDateStamps -XX:+PrintGCTimeStamps -XX:+PrintTenuringDistribution -XX:+PrintGCApplicationStoppedTime"
 
 # These GC settings have shown to work well for a number of common Solr workloads
-#GC_TUNE="-XX:NewRatio=3 -XX:SurvivorRatio=4    etc.
+GC_TUNE="-XX:+UseG1GC -XX:+PerfDisableSharedMem -XX:+ParallelRefProcEnabled -XX:MaxGCPauseMillis=250 -XX:+UseLargePages -XX:+AlwaysPreTouch -XX:+ExplicitGCInvokesConcurrent"
 
 # Set the ZooKeeper connection string if using an external ZooKeeper ensemble
 # e.g. host1:2181,host2:2181/chroot
