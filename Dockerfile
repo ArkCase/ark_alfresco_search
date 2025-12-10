@@ -28,7 +28,7 @@ ARG ALFRESCO_IMG="${ALFRESCO_REPO}:${VER}"
 
 ARG BASE_REGISTRY="${PUBLIC_REGISTRY}"
 ARG BASE_REPO="arkcase/base-java"
-ARG BASE_VER="8"
+ARG BASE_VER="22.04"
 ARG BASE_VER_PFX=""
 ARG BASE_IMG="${BASE_REGISTRY}/${BASE_REPO}:${BASE_VER_PFX}${BASE_VER}"
 
@@ -66,11 +66,11 @@ ENV SOLR_ZIP="alfresco-search-services-${VER}.zip"
 ENV SOLR_JAVA_MEM="-Xms1g -Xmx1g"
 
 RUN set-java "${JAVA}" && \
-    yum -y install \
+    apt-get -y install \
         ca-certificates \
-        langpacks-en \
+        language-pack-en \
       && \
-    yum -y clean all && \
+    apt-get clean && \
     groupadd -g "${APP_GID}" "${APP_GROUP}" && \
     useradd -u "${APP_UID}" -g "${APP_GROUP}" -G "${ACM_GROUP}" "${APP_USER}"
 
@@ -83,10 +83,6 @@ RUN chown -R "${APP_USER}:${APP_GROUP}" "${DIST_DIR}" && \
 
 WORKDIR "${DIST_DIR}"
 USER "${APP_USER}"
-
-VOLUME [ "${SOLR_ROOT}/solrhome" ]
-VOLUME [ "${SOLR_DATA}" ]
-VOLUME [ "${SOLR_ROOT}/keystores" ]
 
 EXPOSE 8983 10001
 ENTRYPOINT [ "/entrypoint" ]
