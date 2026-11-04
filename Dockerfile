@@ -76,7 +76,7 @@ RUN set-java "${JAVA}" && \
     useradd -u "${APP_UID}" -g "${APP_GROUP}" -G "${ACM_GROUP}" "${APP_USER}"
 
 COPY --from=alfresco-src "${DIST_DIR}" "${DIST_DIR}"
-COPY --chown=root:root --chmod=0755 entrypoint /entrypoint
+COPY --chown=root:root --chmod=0755 entrypoint /usr/local/bin
 COPY --chown="${APP_USER}:${APP_GROUP}" "solr.in.sh" "${SOLR_ROOT}/"
 
 RUN chown -R "${APP_USER}:${APP_GROUP}" "${DIST_DIR}" && \
@@ -86,4 +86,3 @@ WORKDIR "${DIST_DIR}"
 USER "${APP_USER}"
 
 EXPOSE 8983 10001
-ENTRYPOINT [ "/entrypoint" ]
