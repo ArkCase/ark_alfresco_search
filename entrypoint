@@ -8,4 +8,20 @@ set -euo pipefail
 #
 init_ssl
 
+#
+# All the keystore and truststore passwords go in an argument file, to keep them
+# off the command line. These are the properties bin/solr would have set from the
+# SOLR_SSL_*_PASSWORD variables (which solr.in.sh no longer sets), plus Alfresco's
+# own. solr.in.sh adds the file to SOLR_OPTS
+#
+export ALFRESCO_SSL_ARGS="${TEMP_DIR}/.java-args.alfresco"
+render_ssl_java_args "${ALFRESCO_SSL_ARGS}" \
+	-Dsolr.jetty.keystore.password="${JAVA_KEYSTORE_PASSWORD}" \
+	-Dsolr.jetty.truststore.password="${JAVA_TRUSTSTORE_PASSWORD}" \
+	-Djavax.net.ssl.keyStorePassword="${JAVA_KEYSTORE_PASSWORD}" \
+	-Djavax.net.ssl.trustStorePassword="${JAVA_TRUSTSTORE_PASSWORD}" \
+	-Dssl-keystore.password="${JAVA_KEYSTORE_PASSWORD}" \
+	-Dssl-truststore.password="${JAVA_TRUSTSTORE_PASSWORD}" \
+	|| fail "Failed to render the Alfresco SSL argument file at [${ALFRESCO_SSL_ARGS}]"
+
 execute "${DIST_DIR}/solr/bin/search_config_setup.sh" "'${DIST_DIR}/solr/bin/solr' start -f"

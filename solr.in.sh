@@ -114,11 +114,11 @@ LOG4J_PROPS=$SOLR_LOGS_DIR/log4j.properties
 # Be sure to update the paths to the correct keystore for your environment
 SOLR_SSL_ENABLED="true"
 SOLR_SSL_KEY_STORE="${JAVA_KEYSTORE}"
-SOLR_SSL_KEY_STORE_PASSWORD="${JAVA_KEYSTORE_PASSWORD}"
 SOLR_SSL_KEY_STORE_TYPE="${JAVA_KEYSTORE_TYPE}"
 SOLR_SSL_TRUST_STORE="${JAVA_TRUSTSTORE}"
-SOLR_SSL_TRUST_STORE_PASSWORD="${JAVA_TRUSTSTORE_PASSWORD}"
 SOLR_SSL_TRUST_STORE_TYPE="${JAVA_TRUSTSTORE_TYPE}"
+# The passwords aren't set here, since bin/solr would put them on the command
+# line. The entrypoint renders them into ALFRESCO_SSL_ARGS instead (see below)
 SOLR_SSL_NEED_CLIENT_AUTH="true"
 SOLR_SSL_WANT_CLIENT_AUTH="false"
 
@@ -149,5 +149,8 @@ SOLR_OPTS="$SOLR_OPTS -Dsolr.data.dir.root=$SOLR_DATA_DIR_ROOT -Dsolr.solr.model
 
 # More keystore things ... b/c ... why make things simple when we can make them extra hard?
 SOLR_OPTS+=" -Dsolr.allow.unsafe.resourceloading=true"
-SOLR_OPTS+=" -Dalfresco.encryption.ssl.keystore.location=${SOLR_SSL_KEY_STORE} -Dalfresco.encryption.ssl.keystore.type=${SOLR_SSL_KEY_STORE_TYPE} -Dssl-keystore.password=${SOLR_SSL_KEY_STORE_PASSWORD}"
-SOLR_OPTS+=" -Dalfresco.encryption.ssl.truststore.location=${SOLR_SSL_TRUST_STORE} -Dalfresco.encryption.ssl.truststore.type=${SOLR_SSL_TRUST_STORE_TYPE} -Dssl-truststore.password=${SOLR_SSL_TRUST_STORE_PASSWORD}"
+SOLR_OPTS+=" -Dalfresco.encryption.ssl.keystore.location=${SOLR_SSL_KEY_STORE} -Dalfresco.encryption.ssl.keystore.type=${SOLR_SSL_KEY_STORE_TYPE}"
+SOLR_OPTS+=" -Dalfresco.encryption.ssl.truststore.location=${SOLR_SSL_TRUST_STORE} -Dalfresco.encryption.ssl.truststore.type=${SOLR_SSL_TRUST_STORE_TYPE}"
+
+# All the keystore and truststore passwords, rendered by the entrypoint
+SOLR_OPTS+=" @${ALFRESCO_SSL_ARGS}"
