@@ -73,7 +73,9 @@ RUN set-java "${JAVA}" && \
       && \
     apt-get clean && \
     groupadd -g "${APP_GID}" "${APP_GROUP}" && \
-    useradd -u "${APP_UID}" -g "${APP_GROUP}" -G "${ACM_GROUP}" "${APP_USER}"
+    useradd -u "${APP_UID}" -g "${APP_GROUP}" -G "${ACM_GROUP}" "${APP_USER}" && \
+    chown -R "${APP_USER}:${APP_GROUP}" "${TEMP_DIR}" && \
+    chmod -R u=rwX,g=rX,o= "${TEMP_DIR}"
 
 COPY --from=alfresco-src "${DIST_DIR}" "${DIST_DIR}"
 COPY --chown=root:root --chmod=0755 entrypoint /usr/local/bin
